@@ -5,7 +5,7 @@ Requerimientos:
 Funcionales: 
 1) Los usuarios y caballos interactúan con la clase Carrera.
 2) Desde el main se debe poder acceder al historial de las transacciones.
-3) El usuario debe poder acceder a su historial de transacciones.
+3) El usuario podrá interactuar con el juego a través de un menú en el archivo main
 4) El tiempo de juego es hasta que el usuario se quede sin dinero o hasta que          él decida retirarse.
 5) El usuario debe elegir un único caballo.
 6) El usuario puede ver la información de los caballos.
@@ -21,7 +21,8 @@ No funcionales:
 2) El juego debe ser fácil de entender.
 3) El juego no debe detenerse al ingresar valores inválidos.
 4) El juego debe ejecutarse de forma fluida.
-5) Se podrá interactuar a través de un menú.
+5) El menú podrá manejar entradas invalidas
+6) Los archivos de texto presentarán la información de forma clara y ordenada
 
 Clases: 
 Caballo(Apuesta=int; Nombre=String; Edad=int; Posicion=int; Puntaje=int); 
