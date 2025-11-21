@@ -1,5 +1,5 @@
 # Horse-race
-El juego consistirá en apostar por un caballo, el cual competirá con otros nueve. La apuesta mínima es de $5. Cada jugador comienza $50 y puede acumular dinero infinito, luego de cada carrera el jugador puede elegir si retirarse o continuar apostando. No se puede apostar por más de un caballo a la vez y el ganador obtendrá un premio sorpresa sorteado. El caballo que quede en primer lugar obtiene 10 puntos y el que quede último tendrá 1. El juego finalizará cuando el jugador se retire o cuando se quede sin dinero para seguir apostando.
+El juego consistirá en apostar por un caballo, el cual competirá con al menos 2 caballos mas. La apuesta mínima es de $5. Cada jugador comienza $50 y puede acumular dinero infinito, luego de cada carrera el jugador puede elegir si retirarse o continuar apostando. No se puede apostar por más de un caballo a la vez. Los puntos de cada caballo aumentaran en relación a su posicion en una carrera. El juego finalizará cuando el jugador se retire o cuando se quede sin dinero para seguir apostando.
 
 Requerimientos: 
 Funcionales: 
@@ -31,4 +31,4 @@ Usuario(Nombre=String; Dinero=int; DineroApostado=int; CaballoActual = Caballo);
 
 Funciones externas: Empezar carrera; Inscribir caballos; Ver caballos; Ver historial de las carreras.
 
-Archivo de texto: Puntajes.txt
+Archivo de texto: Puntajes.txt; Transacciones.txt
