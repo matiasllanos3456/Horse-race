@@ -11,7 +11,7 @@ class Caballo:
         self.avanzar = 0
         
     def __str__(self):
-        return f"Caballo: Nombre={self.nombre}\nEdad={self.edad}\nPorcentajeDeApuestas={self.porcentaje}\nPosicion={self.posicion}\nPuntaje={self.puntaje}"
+        return f"Caballo: Nombre={self.nombre}\nEdad={self.edad}\nPorcentajeDeApuestas={self.porcentaje}\nPosiciones={self.posiciones}\nPuntaje={self.puntaje}"
     
     def getNombre(self):
         return self.nombre
@@ -19,12 +19,8 @@ class Caballo:
     def getPorcentaje(self):
         return self.porcentaje
     
-    def setPorcentaje(self, porcentaje=float):
-        # A la hora de cambiar el porcentaje se tomará en cuenta en puntaje del caballo
-        try:
-            self.porcentaje = porcentaje
-        except ValueError:
-            print("Valor invalido")
+    def getPuntaje(self):
+        return self.puntaje
             
     def setPuntaje(self, puntaje=int):
         try:
@@ -41,3 +37,13 @@ class Caballo:
         self.avanzar = num
         return num
     
+    # Calcular la probabilidad de ganar en funcion del puntaje del caballo
+    # Será modificado al iniciar la carrera
+    def setPorcentaje(self, porcentajeTotal=float):
+        # A la hora de cambiar el porcentaje se tomará en cuenta en puntaje del caballo
+        try:
+            self.porcentaje = self.puntaje / porcentajeTotal
+        except ValueError:
+            print("Valor invalido")
+        except ZeroDivisionError:
+            print("El puntaje total no puede ser 0")

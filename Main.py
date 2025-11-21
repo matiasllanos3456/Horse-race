@@ -20,22 +20,104 @@ caballos.append(Caballo("Mensajero de Dios", 20))
 # Funcion mostrar posiciones
 # Otra funcion debe mostrar el historial de las carreras
 # Otra funcion debe mostrar el historial de transacciones del usuario
+# Se accederan a los archivos de texto desde el menú
 # El usuario debe poder inscribir un caballo
 
+# Creacion del usuario
+nombre = input("Ingrese su nombre: ")
+user1 = Usuario(nombre, 50)
+
+
+def SimularCarrera(caballos, user=Usuario):
+    try:
+        # Aquí se crean las carreras
+        fecha = input("Ingrese la fecha en formato DD/MM/YYYY: ")
+        carrera1 = Carrera(fecha)
+        carrera1.AgregarVariosCaballos(caballos)
+        # Cambiar los porcentajes de apuesta antes de empezar la carrera
+        carrera1.SetPorcentajes()
+        # Antes de iniciar la carrera se debe realizar la apuesta
+        opcion1 = 0
+        while(opcion1 != 3):
+            print("1) Ver caballos\n2) Empezar apuesta\n3) Salir")
+            opcion1 = int(input("> "))
+            if(opcion1 == 1):
+                carrera1.ListarCaballos()
+            elif(opcion1 == 2):
+                # IniciarCarrera() se utilizara aquí
+                user.Apostar()
+                
+                user1.ElegirCaballo(caballos)
+                
+                puntajes = carrera1.IniciarCarrera(user)
+                
+                # Se ordenan las posiciones finales
+                carrera1.Ordenar()
+                
+                # Cambiar los puntajes de los caballos al finalizar la carrera
+                carrera1.setPuntajes(puntajes)
+                
+                break
+            elif(opcion1 == 3):
+                print("Saliendo...")
+                break
+            else:
+                print("Opcion invalida")
+
+        print("Carrera finalizada")
+    except IndexError:
+        pass
+    except TypeError:
+        pass
+    except ZeroDivisionError:
+        pass
+    except ValueError:
+        pass
+    
+def MostrarCarreras():
+    try:
+        with open("RegistroCarreras.txt", "r") as file:
+            contenido = file.read()
+            print(contenido)
+    except FileNotFoundError:
+        print("No se encontró el archivo")
+        
+def MostrarTransacciones():
+    try:
+        with open("Transacciones.txt", "r") as file:
+            contenido = file.read()
+            print(contenido)
+    except FileNotFoundError:
+        print("No se encontró el archivo")
+
+def InscripcionCaballo(caballos):
+    try:
+        nombre = input("Nombre: ")
+        edad = int(input("Edad: "))
+        c = Caballo(nombre, edad)
+        caballos.append(c)
+        print("Caballo creado exitosamente")
+        print(c)
+    except ValueError:
+        print("Valor invalido")
+        
 opcion = 0
 
 while(opcion != 5):
-    print("MENU:\n1) Inscribir caballo\n2) Iniciar carrera\n3) Ver historial de carreras\n4)Ver transacciones\n5) Salir")
+    print("MENU:\n1) Inscribir caballo\n2) Iniciar carrera\n3) Ver historial de carreras\n4) Ver transacciones\n5) Salir")
     opcion = int(input("> "))
     if(opcion == 1):
-        pass
+        InscripcionCaballo(caballos)
     elif(opcion == 2):
-        pass
+        SimularCarrera(caballos, user1)
     elif(opcion == 3):
-        pass
+        print("Historial de carreras")
+        MostrarCarreras()
     elif(opcion == 4):
-        pass
+        print("Historial de transacciones")
+        MostrarTransacciones()
     elif(opcion == 5):
         print("Saliendo... ")
     else:
         print("Opcion invalida")
+    

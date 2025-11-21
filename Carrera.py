@@ -1,7 +1,8 @@
 from Caballo import Caballo
+from Usuario import Usuario
 class Carrera:
     
-    def __init__(self, fecha):
+    def __init__(self, fecha=str):
         self.fecha = fecha
         self.ganador = Caballo
         # Lista de caballos que participaran en la carrera
@@ -16,6 +17,9 @@ class Carrera:
             self.caballos.append(caballo)
         else:
             print("No se pudo guardar al caballo")
+    
+    def getCaballos(self):
+        return self.caballos
             
     def AgregarVariosCaballos(self, listaC):
         # listaC = Lista con varios caballos
@@ -26,7 +30,8 @@ class Carrera:
         if self.caballos:
             for i in self.caballos:
                 # Se llamará implicitamente al metodo __str__
-                print(i)       
+                print(i)   
+                print("----------------")    
         else:
             print("No hay caballos compitiendo")
 
@@ -37,7 +42,17 @@ class Carrera:
         else:
             print("El caballo no está registrado")
             
-    def IniciarCarrera(self):
+    # Modificar los porcetajes de apuesta de cada caballo antes de empezar la carrera
+    def SetPorcentajes(self):
+        # Porcentaje = Puntaje / sumPuntajes
+        try:
+            SumPorcentajes = sum(caballo.getPuntaje() for caballo in self.caballos)
+            for i in self.caballos:
+                i.setPorcentaje(SumPorcentajes)
+        except TypeError:
+            print("Error de tipo")
+            
+    def IniciarCarrera(self, user=Usuario):
         if(len(self.caballos) > 2):
             # Se guardará el puntaje de cada caballo en orden
             puntajes = []
@@ -48,6 +63,19 @@ class Carrera:
             caballo_ganador = self.caballos[maximo]
             self.ganador = caballo_ganador
             print(f"Ganador: {caballo_ganador.getNombre()}")
+            
+            # Se deben anotar las ganancias o perdidas en el archivo de transacciones
+            if(self.ganador == user.GetCaballo()):
+                # Dar dinero
+                ganancias = user.GetDineroApostado * caballo_ganador.getPorcentaje()
+                print(f"Ha ganado: {ganancias}")
+                # Se anotan las ganancias
+                user.SetRegistro(f"{self.fecha} | {ganancias} | Saldo: {user.GetDinero()}")
+                user.SetDinero(ganancias)
+            else:
+                # Se registra la perdida de dinero
+                print("El caballo apostado no ganó")
+                user.SetRegistro(f"{self.fecha} | {-1*(user.GetDineroApostado)} | Saldo: {user.GetDinero()}")
             return puntajes
         else:
             print("Debe haber almenos 2 caballos")
@@ -77,7 +105,7 @@ class Carrera:
         try:
             with open("RegistroCarreras.txt", "w") as file:
                 # Anotan las posiciones
-                file.write(f"Fecha: {self.fecha}\nPosiciones: {self.posiciones}\nGanador: {self.ganador}")
+                file.write(f"Fecha: {self.fecha} | Ganador: {self.ganador}\nPosiciones: {self.posiciones}")
         except FileNotFoundError:
             print("El archivo no se pudo encontrar")
     
