@@ -44,6 +44,8 @@ def SimularCarrera(caballos, user=Usuario):
             if(opcion1 == 1):
                 carrera1.ListarCaballos()
             elif(opcion1 == 2):
+                # Falta hacer que los puntajes y los porcentajes se cambien correctamente
+                # Tambien falta que los datos se escriban en los archivos de texto
                 # IniciarCarrera() se utilizara aquí
                 user.Apostar()
                 
@@ -56,6 +58,9 @@ def SimularCarrera(caballos, user=Usuario):
                 
                 # Cambiar los puntajes de los caballos al finalizar la carrera
                 carrera1.setPuntajes(puntajes)
+                
+                # Se guardan los resultados en el archivo de texto
+                carrera1.Registrar()
                 
                 break
             elif(opcion1 == 3):
@@ -73,6 +78,8 @@ def SimularCarrera(caballos, user=Usuario):
         pass
     except ValueError:
         pass
+    except Exception as e:
+        print(f"Error en SimularCarrera: {e}")
     
 def MostrarCarreras():
     try:

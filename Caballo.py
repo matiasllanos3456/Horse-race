@@ -21,6 +21,9 @@ class Caballo:
     
     def getPuntaje(self):
         return self.puntaje
+    
+    def getAvance(self):
+        return self.avanzar
             
     def setPuntaje(self, puntaje=int):
         try:

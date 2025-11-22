@@ -4,9 +4,10 @@ class Carrera:
     
     def __init__(self, fecha=str):
         self.fecha = fecha
-        self.ganador = Caballo
+        self.ganador = ""
         # Lista de caballos que participaran en la carrera
         self.caballos = []
+        # Guardara el orden de los caballos al finalizar la carrera
         self.posiciones = []
         
     def __str__(self):
@@ -61,21 +62,22 @@ class Carrera:
                 puntajes.append(i.Avanzar())
             maximo = puntajes.index(max(puntajes))
             caballo_ganador = self.caballos[maximo]
-            self.ganador = caballo_ganador
-            print(f"Ganador: {caballo_ganador.getNombre()}")
+            self.ganador = caballo_ganador.getNombre() # self.ganador = String
+            print(f"Ganador: {self.ganador}")
             
             # Se deben anotar las ganancias o perdidas en el archivo de transacciones
-            if(self.ganador == user.GetCaballo()):
+            if(self.ganador == user.GetCaballo().getNombre()):
                 # Dar dinero
-                ganancias = user.GetDineroApostado * caballo_ganador.getPorcentaje()
+                ganancias = user.GetDineroApostado() * caballo_ganador.getPorcentaje()
                 print(f"Ha ganado: {ganancias}")
                 # Se anotan las ganancias
-                user.SetRegistro(f"{self.fecha} | {ganancias} | Saldo: {user.GetDinero()}")
+                print("Llamando a la funcion SetRegistro()")
+                user.SetRegistro(f"{self.fecha} | {ganancias} | Saldo: ${user.GetDinero()}")
                 user.SetDinero(ganancias)
             else:
                 # Se registra la perdida de dinero
                 print("El caballo apostado no ganó")
-                user.SetRegistro(f"{self.fecha} | {-1*(user.GetDineroApostado)} | Saldo: {user.GetDinero()}")
+                user.SetRegistro(f"{self.fecha} | {-1*(user.GetDineroApostado())} | Saldo: {user.GetDinero()}")
             return puntajes
         else:
             print("Debe haber almenos 2 caballos")
@@ -85,7 +87,7 @@ class Carrera:
         # Se modificará la lista de posiciones
         if(len(self.caballos) > 2):
             # Se ordenan segun el atributo avanzar de mayor a menor
-            self.posiciones = sorted(self.caballos, key=lambda caballo : caballo.avanzar, reverse=True)
+            self.posiciones = sorted(self.caballos, key=lambda caballo : caballo.getAvance(), reverse=True)
         else:
             print("No hay suficientes caballos")
         
@@ -102,10 +104,15 @@ class Carrera:
             
     # Una vez finalizada la carrera se anotan los resultados en el archivo "RegistroCarreras.txt"
     def Registrar(self):
+        print("Registrando carrera ..............")
         try:
-            with open("RegistroCarreras.txt", "w") as file:
-                # Anotan las posiciones
-                file.write(f"Fecha: {self.fecha} | Ganador: {self.ganador}\nPosiciones: {self.posiciones}")
+            with open("RegistroCarreras.txt", "a", encoding="utf-8") as file:
+                file.write(f"Fecha: {self.fecha}\n")
+                for pos, caballo in enumerate(self.posiciones, start=1):
+                    file.write(f"{pos}) {caballo.getNombre()}\n")
+                file.write("\n")
         except FileNotFoundError:
             print("El archivo no se pudo encontrar")
+        except Exception as e:
+            print(f"Ocurrió un error inesperado: {e}")
     
