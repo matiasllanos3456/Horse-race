@@ -2,18 +2,42 @@ from Caballo import Caballo
 class Usuario:
     
     def __init__(self, nombre=str, dinero=int):
-        self.nombre = nombre
-        self.dinero = dinero
-        self.dineroApostado = 0
+        self.__nombre = nombre
+        self.__dinero = dinero
+        self.__dineroApostado = 0
         # caballoApostado = Objeto de tipo caballo
-        self.caballoApostado = None
+        self.__caballoApostado = None
     def __str__(self):
-        return f"Nombre: {self.nombre}\nDinero: {self.dinero}\nDinero apostado: {self.dineroApostado}\n Caballo apostado: {self.caballoApostado}"
+        return f"Nombre: {self.__nombre}\nDinero: {self.__dinero}\nDinero apostado: {self.__dineroApostado}\n Caballo apostado: {self.__caballoApostado}"
+    
+    def GetNombre(self):
+        return self.__nombre
+    
+    def SetNombre(self, nombre=str):
+        if not isinstance(nombre, str):
+            raise ValueError("Nombre inválido")
+        self.__nombre = nombre
+    
+    def SetDinero(self, ganancias):
+        # En el main se calcularan las ganancias, ya sean positivas o negativas
+        self.__dinero += ganancias*10
+
+    # Cambiar el caballo apostado
+    def SetCaballo(self, caballo):
+        if caballo is not None and not isinstance(caballo, Caballo):
+            raise TypeError("Debe ser un objeto Caballo o None")
+        self.__caballoApostado = caballo
+
+    def GetCaballo(self):
+        return self.__caballoApostado
+    def GetDinero(self):
+        return round(self.__dinero)
+    def GetDineroApostado(self):
+        return round(self.__dineroApostado)
     
     # Modificar el registro de transacciones
     # Tendrá el formato: |Fecha: ........ | Ganancias: ......... |
     def SetRegistro(self, text=str):
-        print("Registrando apuesta .................")
         try:
             with open("Transacciones.txt", "a") as file:
                 file.write(text + "\n")
@@ -24,27 +48,16 @@ class Usuario:
     
     # Realizar apuesta
     def Apostar(self):
-        print(f"Saldo actual: {self.dinero}")
+        print(f"Saldo actual: {self.__dinero}")
         apuesta = int(input("Cuanto dinero desea apostar?: "))
-        if(0 < apuesta < self.dinero):
-            self.dineroApostado = apuesta
-            self.dinero -= apuesta
+        if(5 <= apuesta <= self.__dinero):
+            self.__dineroApostado = apuesta
+            self.__dinero -= apuesta
             print("Apuesta realizada")
         else:
             print("Monto invalido")
             raise ValueError
         
-    def SetDinero(self, ganancias):
-        # En el main se calcularan las ganancias, ya sean positivas o negativas
-        self.dinero += ganancias
-    
-    def GetCaballo(self):
-        return self.caballoApostado
-    def GetDinero(self):
-        return self.dinero
-    def GetDineroApostado(self):
-        return self.dineroApostado
-    
     def ElegirCaballo(self, caballos):
         try:
             for i,j in enumerate(caballos): # i = indice; j = Caballo
@@ -52,6 +65,7 @@ class Usuario:
                 
             eleccion = int(input("Elija un caballo por su indice: "))
             print(f"Haz elegido a {caballos[eleccion].getNombre()}")
-            self.caballoApostado = caballos[eleccion]
+            print("------------------------------------")
+            self.__caballoApostado = caballos[eleccion]
         except IndexError:
             print("Indice inexistente")

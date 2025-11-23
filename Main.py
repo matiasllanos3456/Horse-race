@@ -49,7 +49,7 @@ def SimularCarrera(caballos, user=Usuario):
                 # IniciarCarrera() se utilizara aquí
                 user.Apostar()
                 
-                user1.ElegirCaballo(caballos)
+                user.ElegirCaballo(caballos)
                 
                 puntajes = carrera1.IniciarCarrera(user)
                 
@@ -108,6 +108,13 @@ def InscripcionCaballo(caballos):
     except ValueError:
         print("Valor invalido")
         
+def LimpiarArchivos():
+    try:
+        open("RegistroCarreras.txt", "w", encoding="utf-8").close()
+        open("Transacciones.txt", "w", encoding="utf-8").close()
+    except Exception as e:
+        print(f"No se pudieron limpiar los archivos: {e}")
+        
 opcion = 0
 
 while(opcion != 5):
@@ -116,15 +123,20 @@ while(opcion != 5):
     if(opcion == 1):
         InscripcionCaballo(caballos)
     elif(opcion == 2):
+        if(user1.GetDinero() < 5):
+            print("Saldo insuficiente, saliendo ......")
+            LimpiarArchivos()
+            break
         SimularCarrera(caballos, user1)
     elif(opcion == 3):
         print("Historial de carreras")
         MostrarCarreras()
     elif(opcion == 4):
-        print("Historial de transacciones")
+        print(f"Transacciones del usuario: {user1.GetNombre()}")
         MostrarTransacciones()
     elif(opcion == 5):
         print("Saliendo... ")
+        LimpiarArchivos()
     else:
         print("Opcion invalida")
     

@@ -44,8 +44,10 @@ class Caballo:
     # Será modificado al iniciar la carrera
     def setPorcentaje(self, porcentajeTotal=float):
         # A la hora de cambiar el porcentaje se tomará en cuenta en puntaje del caballo
+        # Mientras mas puntaje tenga el caballo, menos porcentaje de ganancias tendrá
         try:
-            self.porcentaje = self.puntaje / porcentajeTotal
+            num = 1 / (self.puntaje * 1.0)
+            self.porcentaje = (num / porcentajeTotal) * 10000
         except ValueError:
             print("Valor invalido")
         except ZeroDivisionError:
